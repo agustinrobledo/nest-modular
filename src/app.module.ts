@@ -3,19 +3,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
-
-// This is an example of how we can inject values in our services
-const API_KEY = '123456';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
-  imports: [UsersModule, ProductsModule, HttpModule],
+  imports: [UsersModule, ProductsModule, HttpModule, DatabaseModule],
   controllers: [AppController],
   providers: [
     AppService,
-    {
-      provide: 'API_KEY',
-      useValue: API_KEY,
-    },
+
     {
       // This is an example of how we can use the HttpModule, HttpService and useFactory
       provide: 'TASKS',
