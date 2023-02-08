@@ -1,11 +1,12 @@
-import { HttpModule, HttpService, Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { ProductsModule } from './products/products.module';
-import { DatabaseModule } from './database/database.module';
-import { ConfigModule } from '@nestjs/config';
-import { environments } from './environments';
+import { HttpModule, HttpService, Module } from '@nestjs/common'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { UsersModule } from './users/users.module'
+import { ProductsModule } from './products/products.module'
+import { DatabaseModule } from './database/database.module'
+import { ConfigModule } from '@nestjs/config'
+import { environments } from './environments'
+import config from './config'
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { environments } from './environments';
     ConfigModule.forRoot({
       envFilePath: environments[process.env.NODE_ENV] || '.env',
       isGlobal: true,
+      load: [config],
     }),
   ],
   controllers: [AppController],
@@ -28,8 +30,8 @@ import { environments } from './environments';
       useFactory: async (http: HttpService) => {
         const tasks = await http
           .get('https://jsonplaceholder.typicode.com/posts')
-          .toPromise();
-        return tasks.data;
+          .toPromise()
+        return tasks.data
       },
       inject: [HttpService],
     },
