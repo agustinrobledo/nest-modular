@@ -1,4 +1,6 @@
 import { HttpModule, HttpService, Module } from '@nestjs/common'
+import * as Joi from 'joi'
+
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { UsersModule } from './users/users.module'
@@ -17,13 +19,19 @@ import config from './config'
     ConfigModule.forRoot({
       envFilePath: environments[process.env.NODE_ENV] || '.env',
       isGlobal: true,
+      // Load config for use in our app.service
       load: [config],
+      // Validation for environment variables if one doesn't exist our app throws an error
+      validationSchema: Joi.object({
+        API_KEY: Joi.number().required(),
+        DATABASE_NAME: Joi.string().required(),
+        DATABASE_PORT: Joi.number().required(),
+      }),
     }),
   ],
   controllers: [AppController],
   providers: [
     AppService,
-
     {
       // This is an example of how we can use the HttpModule, HttpService and useFactory
       provide: 'TASKS',
