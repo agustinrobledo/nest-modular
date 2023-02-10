@@ -1,22 +1,24 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
+import { AppService } from './app.service'
 
+@ApiTags('app')
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
   getHello(): string {
-    return this.appService.getHello();
+    return this.appService.getHello()
   }
 
   @Get('nuevo')
   newEndpoint() {
-    return 'yo soy nuevo';
+    return 'yo soy nuevo'
   }
 
   @Get('/ruta/')
   hello() {
-    return 'con /sas/';
+    return 'con /sas/'
   }
 }

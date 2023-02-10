@@ -7,28 +7,30 @@ import {
   Put,
   Delete,
   ParseIntPipe,
-} from '@nestjs/common';
+} from '@nestjs/common'
 
-import { BrandsService } from '../services/brands.service';
-import { CreateBrandDto, UpdateBrandDto } from '../dtos/brand.dtos';
+import { BrandsService } from '../services/brands.service'
+import { CreateBrandDto, UpdateBrandDto } from '../dtos/brand.dtos'
+import { ApiTags } from '@nestjs/swagger'
 
+@ApiTags('brands')
 @Controller('brands')
 export class BrandsController {
   constructor(private brandsService: BrandsService) {}
 
   @Get()
   findAll() {
-    return this.brandsService.findAll();
+    return this.brandsService.findAll()
   }
 
   @Get(':id')
   get(@Param('id', ParseIntPipe) id: number) {
-    return this.brandsService.findOne(id);
+    return this.brandsService.findOne(id)
   }
 
   @Post()
   create(@Body() payload: CreateBrandDto) {
-    return this.brandsService.create(payload);
+    return this.brandsService.create(payload)
   }
 
   @Put(':id')
@@ -36,11 +38,11 @@ export class BrandsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateBrandDto,
   ) {
-    return this.brandsService.update(id, payload);
+    return this.brandsService.update(id, payload)
   }
 
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.brandsService.remove(+id);
+    return this.brandsService.remove(+id)
   }
 }

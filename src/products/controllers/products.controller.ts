@@ -11,19 +11,21 @@ import {
   HttpCode,
   Res,
   // ParseIntPipe,
-} from '@nestjs/common';
+} from '@nestjs/common'
+import { ApiOperation, ApiTags } from '@nestjs/swagger'
 
-import { Response } from 'express';
-import { ParseIntPipe } from '../../common/parse-int.pipe';
-import { CreateProductDto, UpdateProductDto } from '../dtos/products.dtos';
+import { ParseIntPipe } from '../../common/parse-int.pipe'
+import { CreateProductDto, UpdateProductDto } from '../dtos/products.dtos'
 
-import { ProductsService } from './../services/products.service';
+import { ProductsService } from './../services/products.service'
 
+@ApiTags('products')
 @Controller('products')
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
   @Get()
+  @ApiOperation({ summary: 'List of products' })
   getProducts(
     @Query('limit') limit = 100,
     @Query('offset') offset = 0,
@@ -32,12 +34,12 @@ export class ProductsController {
     // return {
     //   message: `products limit=> ${limit} offset=> ${offset} brand=> ${brand}`,
     // };
-    return this.productsService.findAll();
+    return this.productsService.findAll()
   }
 
   @Get('filter')
   getProductFilter() {
-    return `yo soy un filter`;
+    return `yo soy un filter`
   }
 
   @Get(':productId')
@@ -46,7 +48,7 @@ export class ProductsController {
     // response.status(200).send({
     //   message: `product ${productId}`,
     // });
-    return this.productsService.findOne(productId);
+    return this.productsService.findOne(productId)
   }
 
   @Post()
@@ -55,16 +57,16 @@ export class ProductsController {
     //   message: 'accion de crear',
     //   payload,
     // };
-    return this.productsService.create(payload);
+    return this.productsService.create(payload)
   }
 
   @Put(':id')
   update(@Param('id') id: string, @Body() payload: UpdateProductDto) {
-    return this.productsService.update(+id, payload);
+    return this.productsService.update(+id, payload)
   }
 
   @Delete(':id')
   delete(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+    return this.productsService.remove(+id)
   }
 }
